@@ -16,14 +16,14 @@ router.get('/', (req, res) => {
 
 
 router.post('/', validateProject, (req, res) => {
- const { name } = req.body;
- const { description } = req.body
- Project.insert({name}, {description})
+const { name } = req.body;
+const { description } = req.body
+Project.insert({name, description})
     .then(project => res.status(201).json(project))
     .catch(err => {
      console.log(err);
      res.status(500).json({error: 'Error adding project'})
- })
+    })
 });
 
 

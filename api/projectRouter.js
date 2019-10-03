@@ -27,7 +27,14 @@ Project.insert({name, description})
 });
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateProjectId, (req, res) => {
+    const { id } = req.project;
+    Project.remove(id)
+    .then(() => res.status(204).end())
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error: "error deleting project"})
+    })
 
 });
 

@@ -28,9 +28,12 @@ Project.insert({name, description})
 
 
 router.delete('/:id', validateProjectId, (req, res) => {
-    const { id } = req.project;
+    const { id } = req.params;
     Project.remove(id)
-    .then(() => res.status(204).end())
+    .then(() => {
+        console.log('running .then')
+       return res.status(204).json({message: "deleted"})
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json({error: "error deleting project"})
@@ -46,15 +49,20 @@ router.put('/:id', (req, res) => {
 
 
 function validateProjectId(req, res, next) {
-    const { id } = req.params.id;
-    Project.getById(id)
+    const { id } = req.params;
+    console.log(id)
+    Project.get(id)
         .then(project => {
-            req.project = project;
-            if (user) {
+            if (project) {
+                // req.project = project; // needs to be inside!!!!!
                 next();
             } else {
                 res.status(404).json({error: "user with this id does not exist"})
             }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error: 'server error'})
         })
     };
 

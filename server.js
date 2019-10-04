@@ -1,3 +1,4 @@
+const projectRouter = require('./api/projectRouter')
 const express = require('express');
 
 const server = express();
@@ -10,7 +11,6 @@ server.use(logger);
 
 
 //router
-const projectRouter = require('./api/projectRouter')
 server.use('/api/project', projectRouter);
 
 server.get('/', (req, res) => {
